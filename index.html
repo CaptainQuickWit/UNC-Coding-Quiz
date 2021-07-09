@@ -8,26 +8,45 @@
   </head>
   <body>
 
-    <header class = "container header">
+    <header class = "container" id = "pageHeader">
       <!-- card header-->
+
+      <div id = "highScore"></div>
+      <div id = "clock"></div>
+
     </header>
 
-    <div class = "container generic">
-
-    </div>
-
-    <div class = "container generic">
+    <div class = "container card" id = "mainCardContainer">
       
-    </div>
+      <main class = "container card" id = "main" >
 
-    <div class = "container card">
-      
-      <header class = "container card header">
-        <!-- card header-->
-      </header>
-  
-      <main class = "container card">
+        <header id = "question" data-visible = false;>
+          
+        </header>
+
+        <div id = "multiChoiceQuestions" data-visible = false;>
+
+        </div>
+
+        <div id = "cardFooter">
+          <div id = "submitBtnDiv" data-visible= false;>
+            <button id="submitbtn" type="button" class="btn btn-success">Submit!</button>
+          </div>
+
+          <div id = "startBtnDiv" data-visible= false;>
+            <button id="startBtn" type="button" class="btn btn-success">Start Quiz!</button>
+          </div>
+
+          <div id = "matchEnd" data-visible= false;>
+            <button id="backBtn" type="button" class="btn btn-success">Go Back</button>
+            <button id="highScoreBtn" type="button" class="btn btn-success">Clear High Score</button>
+          </div>
+          
+          
+        </div>
         
+        
+
       </main>
 
     </div>
