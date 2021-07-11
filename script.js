@@ -3,46 +3,54 @@ var questions = [
   {
       title: "Inside which HTML element do we put the JavaScript",
       choices: ["<HTML>", "<main>", "<javascript>", "<script>"],
-      answer: "<script>"
+      answer: "<script>",
+      checked:false
   },
   {
       title: "What does HTML stand for?",
       choices: ["Hyper Text Markup Language", "HyperLinks and Text Markup Language", "Home Tool Markup Langauge", "I dont know"],
-      answer: "Hyper Text Markup Language"
+      answer: "Hyper Text Markup Language",
+      checked:false
   },
   {
       title: "What is an Array?",
       choices: ["A single variable that lets you store multipel elements", "primitive data type", "a conditional statement", "all of the above"],
-      answer: "A single variable that lets you store multipel elements"
+      answer: "A single variable that lets you store multipel elements",
+      checked:false
   },
   {
       title: "What is javascript",
       choices: ["a prototype-based langauge", "a lanague having object oriented features", "both above", "none of the above"],
-      answer: "both above"
+      answer: "both above",
+      checked:false
   },
   {
       title: "What is github?",
       choices: ["the same as git", "the terminal / bash", "not important", "a collaboration site for programmers"],
-      answer: "a collaboration site for programmers"
+      answer: "a collaboration site for programmers",
+      checked:false
   },
 
 ];
 
+
+
 // Global variables
-var beginQuiz = document.querySelector("#mothafuka");
+
+var executeQuiz = document.querySelector("#startBtn");
 var timerDisplay = document.querySelector(".timer");
-var quizCard = document.querySelector("#quizCard");
+var gameCard = document.querySelector("#gameCard");
 var start = document.querySelector(".start");
 var title = document.querySelector("#title");
 
-var A = document.querySelector("#A");
-var B = document.querySelector("#B");
-var C = document.querySelector("#C");
-var D = document.querySelector("#D");
+var choiceA = document.querySelector("#choiceA");
+var choiceB = document.querySelector("#choiceB");
+var choiceC = document.querySelector("#choiceC");
+var choiceD = document.querySelector("#choiceD");
 var answer = document.querySelector("#answer");
 var feedback = document.querySelector("#response1");
 
-var multipleCard = document.querySelector("#multipleCard");
+var multipleChoiceCard = document.querySelector("#multipleChoiceCard");
 var scoreForm = document.querySelector("#scoreForm");
 var scoreCard = document.querySelector("#scoreCard");
 
@@ -54,8 +62,9 @@ var scoreBtn = document.querySelector("#scoreBtn");
 var clearBtn = document.querySelector("#clearBtn");
 
 
-var timeLeft = questions.length * 15;
-var q = 0;
+
+var remainingLeft = questions.length * 15;
+var questionIndex = 0;
 var s = 0;
 var score = 0;
 var scoreList = [];
@@ -65,51 +74,93 @@ getScore();
 
 // Start the timer
 function timer() {
+  length = questions.length;
   timeInterval = setInterval(function () {
-    timeLeft--;
-    timerDisplay.textContent = "TIMER: " + timeLeft;
-    if (timeLeft === 0 || q >= questions.length) {
+    remainingLeft--;
+    timerDisplay.textContent = "TIMER: " + remainingLeft;
+    if (remainingLeft === 0 || questionIndex>= length) {
       clearInterval(timeInterval);
-      gameOver();
+      terminate();
     }
   }, 1000);
 }
 
 
 // Displaying questions & answers from questions object
-function displayQA() {
+function render(what) {
+  /*
+  if (questionIndex< questions.length) {
+    title.textContent = questions[questionIndex].title;
+    choiceA.textContent = questions[questionIndex].choices[0];
+    choiceB.textContent = questions[questionIndex].choices[1];
+    choiceC.textContent = questions[questionIndex].choices[2];
+    choiceD.textContent = questions[questionIndex].choices[3];
+  } else {
+    terminate();
+  }*/
+  switch (what) {
+
+    case "score": 
+      
+        topTen = scoreList.slice(0, 10);
   
-  if (q < questions.length) {
-    title.textContent = questions[q].title;
-    console.log(questions[q].choices[0]);
-    A.textContent = questions[q].choices[0];
-    B.textContent = questions[q].choices[1];
-    C.textContent = questions[q].choices[2];
-    D.textContent = questions[q].choices[3];
-  } else { 
-    gameOver();
+        for (var i = 0; i < topTen.length; i++) {
+          var player = topTen[i].player;
+          var score = topTen[i].score;
+
+          var newDiv = document.createElement("div");
+          leaderBoardDiv.appendChild(newDiv);
+
+          var newLabel = document.createElement("label");
+          newLabel.textContent = player + " - " + score;
+          newDiv.appendChild(newLabel);
+        }
+    break;
+
+    case "question":
+
+      length = questions.length;
+      if (questionIndex > length) {
+        terminate();
+      } else {
+        title.textContent = questions[questionIndex].title;
+        choiceA.textContent = questions[questionIndex].choices[0];
+        choiceB.textContent = questions[questionIndex].choices[1];
+        choiceC.textContent = questions[questionIndex].choices[2];
+        choiceD.textContent = questions[questionIndex].choices[3];
+      }
+    break;
+
+    case "scoreboard":
+      topTen = scoreList.slice(0, 10);
+      leaderBoardDiv = document.createElement("div");
+      leaderBoardDiv.setAttribute("id", "playerInitials");
+      document.getElementById("leaderBoard").appendChild(leaderBoardDiv);
+    break;
+
   }
+  
+
 }
 
 
 // Shows the player if their choice is right or wrong
-function compareAnswer(event) {
-  if (q >= questions.length) {
-    gameOver();
+function check(event) {
+  if (questionIndex >= questions.length) {
+    terminate();
     clearInterval(timeInterval);
   } else {
-    if (event === questions[q].answer) {
+    if (event === questions[questionIndex].answer) {
       response1.textContent = "Correct!";
     } else {
-      timeLeft -= 10;
+      remainingLeft -= 10;
       response1.textContent = "Incorrect";
     }
-    score = timeLeft;
-    q++;
-    displayQA();
+    score = remainingLeft;
+    questionIndex++;
+    render("question");
   }
 }
-
 
 // Retriving scores from local storage
 function getScore() {
@@ -127,10 +178,10 @@ function saveScore() {
 
 
 // Display game over screen 
-function gameOver() {
+function terminate() {
   scoreBtn.innerHTML = score;
   scoreBtn.style.display = "inline-block";
-  quizCard.classList.add("hide");
+  gameCard.classList.add("hide");
   scoreForm.classList.remove("hide");
   timerDisplay.classList.add("hide");
   highScoreBtn.classList.add("hide");
@@ -141,11 +192,12 @@ function gameOver() {
 // Show top 10 scores from storage
 function leaderBoard() {
   removeFromLeaderBoard();
-  addToLeaderBoard();
   scoreList.sort((a, b) => {
     return b.score - a.score;
   });
-
+  render("scoreboard");
+  render("score");
+  /*
   topTen = scoreList.slice(0, 10);
 
   for (var i = 0; i < topTen.length; i++) {
@@ -158,16 +210,18 @@ function leaderBoard() {
     var newLabel = document.createElement("label");
     newLabel.textContent = player + " - " + score;
     newDiv.appendChild(newLabel);
-  }
+  }*/
 }
 
 
 // Add name to the leader board
+/*
 function addToLeaderBoard() {
+  
   leaderBoardDiv = document.createElement("div");
   leaderBoardDiv.setAttribute("id", "playerInitials");
   document.getElementById("leaderBoard").appendChild(leaderBoardDiv);
-}
+}*/
 
 
 // Clear names from leader board
@@ -179,20 +233,47 @@ function removeFromLeaderBoard() {
   }
 }
 
+function switchState(stage) {
+  switch(stage) {
+    case "start":
+      start.classList.add("hide");
+      gameCard.classList.remove("hide");
+      highScoreBtn.style.display = "none";
+      scoreCard.classList.add("hide");
+      break;
+    case "end":
+      scoreBtn.innerHTML = score;
+      scoreBtn.style.display = "inline-block";
+      gameCard.classList.add("hide");
+      scoreForm.classList.remove("hide");
+      timerDisplay.classList.add("hide");
+      highScoreBtn.classList.add("hide");
+      break;
+    case "scoreSubmit":
+      scoreForm.classList.add("hide");
+      scoreCard.classList.remove("hide");
+    break;
+
+    default:
+      if (stage.classList.contains("hide")) {
+        stage.classList.remove("hide");
+      } else {
+        stage.classList.add("hide");
+      }
+  } 
+    
+}
 
 // Event listeners
-beginQuiz.addEventListener("click", function (event) {
+executeQuiz.addEventListener("click", function (event) {
   timer();
-  displayQA();
-  start.classList.add("hide");
-  quizCard.classList.remove("hide");
-  highScoreBtn.style.display = "none";
-  scoreCard.classList.add("hide");
+  render("question");
+  switchState("start");
 });
 
 multipleChoiceCard.addEventListener("click", function (event) {
   var event = event.target;
-  compareAnswer(event.textContent.trim());
+  check(event.textContent.trim());
 });
 
 submitBtn.addEventListener("click", function (event) {
@@ -211,6 +292,7 @@ submitBtn.addEventListener("click", function (event) {
 });
 
 highScoreBtn.addEventListener("click", function (event) {
+  
   scoreCard.classList.remove("hide");
   highScoreBtn.classList.add("hide");
   start.classList.add("hide");
