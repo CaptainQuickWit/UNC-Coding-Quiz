@@ -37,7 +37,7 @@
     <!--Quiz content-->
     <div id="gameCard" class="w3-container hide">
 
-      <h2 class="timer">TIMER: </h2>
+      <h2 class="clock">TIMER: </h2>
 
       <div id="card1" class="w3-card-4">
 
@@ -47,24 +47,24 @@
 
         <hr style="margin-top:0; border-color:transparent;">
 
-        <div id="multipleChoiceCard" class="w3-container">
+        <div id="questionsListed" class="w3-container">
           <div class="questionLine">
-            <label id="choiceA"></label>
+            <label id="A"></label>
           </div>
           <hr>
 
           <div class="questionLine">
-            <label id="choiceB"></label>
+            <label id="B"></label>
           </div>
           <hr>
 
           <div class="questionLine">
-            <label id="choiceC"></label>
+            <label id="C"></label>
           </div>
           <hr>
 
           <div class="questionLine">
-            <label id="choiceD"></label>
+            <label id="D"></label>
           </div>
 
         </div>
@@ -79,7 +79,7 @@
 
     <div id="gameCard" class="w3-container hide">
 
-      <h2 class="timer">TIMER: </h2>
+      <h2 class="timer">Clock: </h2>
 
       <div id="card1" class="w3-card-4">
 
@@ -90,23 +90,23 @@
         <hr style="margin-top:0; border-color:transparent;">
 
         <div id="multipleChoiceCard" class="w3-container">
-          <div class="questionLine">
-            <label id="choiceA"></label>
+          <div class="questionWrapper">
+            <label id="A"></label>
           </div>
           <hr>
 
-          <div class="questionLine">
-            <label id="choiceB"></label>
+          <div class="questionWrapper">
+            <label id="B"></label>
           </div>
           <hr>
 
-          <div class="questionLine">
-            <label id="choiceC"></label>
+          <div class="questionWrapper">
+            <label id="C"></label>
           </div>
           <hr>
 
-          <div class="questionLine">
-            <label id="choiceD"></label>
+          <div class="questionWrapper">
+            <label id="D"></label>
           </div>
 
         </div>
@@ -123,10 +123,10 @@
 
       <h1>!! GAME OVER !!</h1>
 
-      <h2>You scored <span id="scoreBtn" class="btn">Score</span> points</h2>
+      <h2>You scored <span id="scoreBtn" class="btn">Score</span></h2>
       <form>
-        <label for="nameBox">Enter Your Name:</label><br>
-        <input id="nameBox" type="text" maxlength="15"><br>
+        <label for="nameBox">Initials:</label><br>
+        <input id="initialsInput" type="text" maxlength="15"><br>
         <button id="submitBtn" type="button" class="btn btn-success">Submit</button>
       </form>
 
@@ -152,7 +152,7 @@
         <footer id="response2" class="w3-block w3-dark-grey">Thanks for playing!</footer>
       </div>
 
-      <button id="backBtn" type="button" class="btn btn-warning">Back</button>
+      <button id="returnBtn" type="button" class="btn btn-warning">Return</button>
       <button id="clearBtn" type="button" class="btn btn-danger">Clear</button>
 
     </div>

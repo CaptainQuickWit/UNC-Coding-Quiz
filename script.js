@@ -1,4 +1,3 @@
-// Question list
 var questions = [
   {
       title: "Inside which HTML element do we put the JavaScript",
@@ -199,14 +198,11 @@ function leaderBoard() {
   render("score");
   /*
   topTen = scoreList.slice(0, 10);
-
   for (var i = 0; i < topTen.length; i++) {
     var player = topTen[i].player;
     var score = topTen[i].score;
-
     var newDiv = document.createElement("div");
     leaderBoardDiv.appendChild(newDiv);
-
     var newLabel = document.createElement("label");
     newLabel.textContent = player + " - " + score;
     newDiv.appendChild(newLabel);
